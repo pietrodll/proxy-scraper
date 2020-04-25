@@ -43,4 +43,4 @@ class ProxyScraper(metaclass=ABCMeta):
         proxy_json = [proxy.to_dict() for proxy in proxies]
 
         with open(filename, 'w') as proxy_file:
-            json.dump(proxy_json, proxy_file)
+            json.dump(proxy_json, proxy_file, indent=2)
