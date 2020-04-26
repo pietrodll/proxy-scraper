@@ -4,43 +4,46 @@ from pytest import raises
 from scraproxy.proxy import Proxy, InvalidProxyUrlException
 
 
-def test_proxy_url():
-    """Tests the proxy class"""
+class TestProxy:
+    """Tests the `Proxy` class"""
 
-    proxy = Proxy('192.168.1.1', port=8080, https=True)
+    def test_url(self):
+        """Tests the proxy class"""
 
-    assert proxy.url == 'https://192.168.1.1:8080'
+        proxy = Proxy('192.168.1.1', port=8080, https=True)
 
-
-def test_proxy_dict():
-    """Test the method `to_dict` of the `Proxy` class"""
-
-    proxy = Proxy('192.168.1.1', port=8080, https=True)
-    proxy_dict = proxy.to_dict()
-
-    assert len(proxy_dict) == 2
-    assert 'http' in proxy_dict
-    assert 'https' in proxy_dict
-    assert proxy_dict['http'] == 'http://192.168.1.1:8080'
-    assert proxy_dict['https'] == 'https://192.168.1.1:8080'
+        assert proxy.url == 'https://192.168.1.1:8080'
 
 
-def test_proxy_repr():
-    """Tests the `__repr__` method of the `Proxy` class"""
+    def test_dict(self):
+        """Test the method `to_dict` of the `Proxy` class"""
 
-    proxy = Proxy('192.168.1.1', port=8080, https=True, last_checked=60)
+        proxy = Proxy('192.168.1.1', port=8080, https=True)
+        proxy_dict = proxy.to_dict()
 
-    assert repr(proxy) == '<Proxy https://192.168.1.1:8080 checked 60 seconds ago>'
+        assert len(proxy_dict) == 2
+        assert 'http' in proxy_dict
+        assert 'https' in proxy_dict
+        assert proxy_dict['http'] == 'http://192.168.1.1:8080'
+        assert proxy_dict['https'] == 'https://192.168.1.1:8080'
 
 
-def test_proxy_from_url():
-    """Test the static method `from_url` of the `Proxy` class"""
+    def test_repr(self):
+        """Tests the `__repr__` method of the `Proxy` class"""
 
-    proxy = Proxy.from_url('https://192.168.1.1:8080')
+        proxy = Proxy('192.168.1.1', port=8080, https=True, last_checked=60)
 
-    assert proxy.protocol == 'https'
-    assert proxy.port == 8080
-    assert proxy.ip_address == '192.168.1.1'
+        assert repr(proxy) == '<Proxy https://192.168.1.1:8080 checked 60 seconds ago>'
 
-    with raises(InvalidProxyUrlException):
-        Proxy.from_url('invalid_url')
+
+    def test_from_url(self):
+        """Test the static method `from_url` of the `Proxy` class"""
+
+        proxy = Proxy.from_url('https://192.168.1.1:8080')
+
+        assert proxy.protocol == 'https'
+        assert proxy.port == 8080
+        assert proxy.ip_address == '192.168.1.1'
+
+        with raises(InvalidProxyUrlException):
+            Proxy.from_url('invalid_url')
