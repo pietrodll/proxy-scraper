@@ -1,10 +1,12 @@
 """Main module"""
 
-from .scrapers import FreeProxyList
+from .scrapers import FreeProxyLists
 
 if __name__ == "__main__":
-    FPL = FreeProxyList()
+    FPL = FreeProxyLists()
 
-    FILTER_FUNC = lambda proxy: proxy.last_checked <= 60
+    print(FPL.proxies)
 
-    FPL.to_json(filter_func=FILTER_FUNC)
+    # FILTER_FUNC = lambda proxy: proxy.last_checked <= 60
+
+    # FPL.to_json(filter_func=FILTER_FUNC)
